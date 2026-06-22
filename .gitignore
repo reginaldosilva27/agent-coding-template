@@ -1,0 +1,24 @@
+# Claude Code local (machine-specific; don't template)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Env / secrets
+.env
+.env.local
+*.local
+
+# OS
+.DS_Store

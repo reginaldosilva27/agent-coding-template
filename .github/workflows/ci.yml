@@ -1,0 +1,66 @@
+name: CI
+
+# Mirror of the local quality gates (constitution §3). Keep this in lockstep with
+# the `verify-gates` skill. Delete the jobs your project doesn't use; fill in the
+# working-directory and commands for the ones it does.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ── Python backend ──────────────────────────────────────────────────────────
+  python:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend # {{PYTHON_DIR}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Lint (ruff)
+        run: ruff check .
+      - name: Tests (pytest)
+        # If the suite hits a real external service, provide the key as a secret.
+        # Keyless guard tests still run; dependent tests should skip without it.
+        # env:
+        #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: pytest -q
+
+  # ── Node / TS backend ───────────────────────────────────────────────────────
+  # node:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: . # {{NODE_DIR}}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
+  #     - run: npm ci
+  #     - run: npm run lint
+  #     - run: npm test
+  #     - run: npm run build
+
+  # ── Frontend (React / TS / CSS) ─────────────────────────────────────────────
+  # frontend:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: frontend # {{FRONTEND_DIR}}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
+  #     - run: npm ci
+  #     - name: Type-check & build
+  #       run: npm run build
+  #     - name: Tests
+  #       run: npm test

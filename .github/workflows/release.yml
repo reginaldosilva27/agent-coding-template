@@ -1,0 +1,31 @@
+name: Release
+
+# Creates a GitHub Release automatically whenever a version tag (vX.Y.Z, SemVer)
+# is pushed. Flow: `git tag v1.1.0 && git push origin v1.1.0`.
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to create the release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history for the auto-generated changelog
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # --generate-notes builds the changelog from commits/PRs since the last
+        # tag. Pre-release tags (v1.0.0-beta.1, -rc.1) are flagged as such.
+        run: |
+          PRERELEASE=""
+          case "${GITHUB_REF_NAME}" in
+            *-*) PRERELEASE="--prerelease" ;;
+          esac
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes \
+            ${PRERELEASE}
