@@ -12,7 +12,7 @@ If the user skipped the spec and asked for code directly, **stop and remind them
 1. **Find the next number.** List `specs/` and take the highest `NNN-` prefix + 1, zero-padded (`001`, `002`, …). Sequential, never reuse.
 2. **Copy the template.** `cp -r specs/_template specs/NNN-feature-name/` (kebab-case, short, descriptive).
 3. **Fill `spec.md`** — WHAT + WHY only. No implementation detail (if you name a file or a function, it belongs in `plan.md`). Numbered, **testable** acceptance criteria (each becomes a failing test). Fill the "Contract / data impact" block. Set `Status: draft`.
-4. **Resolve every open question** in the "Open questions (clarify)" list *with the user* before moving on — empty that list to reach `clarified`.
+4. **Clarify** — run the `grilling` skill to resolve every "Open questions (clarify)" item *with the user*, one question at a time. Empty that list to reach `clarified`.
 5. **Fill `plan.md`** — HOW: approach, affected files, contract/data/i18n impact, and a test strategy mapping **each AC → a test**.
 6. **Fill `tasks.md`** — ordered TDD checklist; each implement task is preceded by the failing test that drives it.
 7. Move status along as you go: `draft → clarified → planned → in-progress → done`. Add the spec to the index table in `specs/README.md`.

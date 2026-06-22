@@ -27,7 +27,8 @@ For each new feature:
 1. **Specify** — copy `_template/` to `specs/NNN-feature-name/` and fill `spec.md`.
    Describe behavior and acceptance criteria; **no implementation detail yet**.
 2. **Clarify** — resolve every open question before planning. This is the "grill me"
-   step: an interview that removes ambiguity. (Ask the agent to grill you on the spec.)
+   step: run the `grilling` skill — it interviews you one question at a time (each with a
+   recommended answer), folds the answers back into `spec.md`, and moves it to `clarified`.
 3. **Plan** — fill `plan.md`: approach, files touched, data/contract impact, test strategy.
 4. **Tasks** — fill `tasks.md`: ordered checklist, each item paired with its test.
 5. **Implement (TDD)** — for each task: write the failing test (red) → implement

@@ -12,7 +12,9 @@ spec.md ──clarify──> plan.md ──> tasks.md ──TDD──> code + te
 
 1. **Spec first (§1).** New feature or behavior change → copy `specs/_template/` to
    `specs/NNN-feature-name/` and fill `spec.md` (WHAT + WHY + testable acceptance criteria). Use the
-   `new-spec` skill / `/new-spec` Codex prompt. Resolve the open questions before planning.
+   `new-spec` skill / `/new-spec` Codex prompt. Then **clarify**: run the `grilling` skill /
+   `/grilling` prompt — it interviews you one question at a time until the open questions are
+   resolved and the spec reaches `clarified`, before planning.
 2. **Plan.** Fill `plan.md`: approach, affected files, contract/data/i18n impact, and a test strategy
    mapping each acceptance criterion to a test.
 3. **Tasks.** Fill `tasks.md`: an ordered TDD checklist, each implement task preceded by its failing test.

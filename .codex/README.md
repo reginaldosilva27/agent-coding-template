@@ -20,6 +20,7 @@ for Claude Code. Nothing to install.
 | Prompt | Use it for |
 |---|---|
 | `/new-spec` | Scaffold `specs/NNN-*/` before any feature code (constitution §1). |
+| `/grilling` | The **clarify** engine — interview one question at a time to resolve a draft spec's open questions (or stress-test a plan) before code. |
 | `/verify-gates` | Run the local CI mirror + cross-cutting constitution gates before a PR. |
 | `/review-code` | Audit correctness, conventions, one-source-of-truth, scope (read-only). |
 | `/review-tests` | Audit TDD: each AC mapped to a behavioral test, test-driven (read-only). |

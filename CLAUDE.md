@@ -69,6 +69,23 @@ npm run build && npm test
      contracts, the source(s) of truth, and the non-obvious invariants a contributor must
      not break. Keep it honest and current (constitution §4 — docs follow code). -->
 
+## Working style — behavioral guardrails
+
+> Nudges that bias toward caution over churn. For trivial tasks, use judgment. These are
+> behavioral, not CI-gated — the constitution (§1–§7) is still the law above them.
+> _(Adapted from Andrej Karpathy's coding guidelines.)_
+
+- **Simplicity first.** The minimum code that solves the problem — nothing speculative. No
+  features beyond what was asked, no abstraction for single-use code, no configurability nobody
+  requested, no error handling for impossible states. If 200 lines could be 50, rewrite it.
+- **Surgical changes.** Touch only what the request requires. Don't "improve" adjacent code,
+  refactor what isn't broken, or restyle to your taste — match the surrounding code. Remove only
+  the imports/vars/functions **your** change orphaned; pre-existing dead code you *mention*, not
+  delete. Every changed line should trace to the request.
+- **Think before coding.** State assumptions explicitly; if several interpretations exist, surface
+  them instead of silently picking one; push back when a simpler approach exists. When the ambiguity
+  is about a spec, that's the `grilling` (clarify) step — use it.
+
 ## Conventions
 
 - **SDD + TDD are mandatory** (see "How we build here"): a new feature gets a spec under `specs/`
