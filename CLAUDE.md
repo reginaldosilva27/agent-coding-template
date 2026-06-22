@@ -50,17 +50,21 @@ declaring anything done. Fill the real commands into `verify-gates` and `ci.yml`
 
 ## Commands
 
-> Fill these in for your stack. Examples:
+> Default layered architecture: `backend/` · `frontend/` · `ai/` · `infra/`. Run each layer's gates
+> from its own folder. Adjust the tooling if a layer uses a different stack; delete unused layers.
 
 ```bash
-# Python (from {{PYTHON_DIR}})
+# backend/ — Python (FastAPI)
 ruff check . && ruff format --check . && pytest -q
 
-# Node / TS (from {{NODE_DIR}})
+# ai/ — Python (agents, prompts, RAG)
+ruff check . && pytest -q
+
+# frontend/ — React + TypeScript + CSS
 npm run lint && npm test && npm run build
 
-# Frontend (from {{FRONTEND_DIR}})
-npm run build && npm test
+# infra/ — Terraform / IaC
+terraform fmt -check -recursive && terraform validate
 ```
 
 ## Architecture — the load-bearing ideas

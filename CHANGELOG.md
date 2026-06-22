@@ -15,6 +15,24 @@ which triggers the Release workflow (.github/workflows/release.yml).
 Use these categories: Added · Changed · Deprecated · Removed · Fixed · Security.
 -->
 
+### Added
+
+- Default **layered architecture** scaffolded out of the box: `backend/` (Python/FastAPI),
+  `frontend/` (React + TS + CSS), `ai/` (agents/prompts/RAG), `infra/` (Terraform) — each with a
+  README describing its stack and gates.
+- Repository marked as a **GitHub template** — bootstrap with
+  `gh repo create … --template …` or the "Use this template" button.
+
+### Changed
+
+- **Simplified placeholders** to project identity only (`{{PROJECT_NAME}}`,
+  `{{PROJECT_DESCRIPTION}}`, `{{MAINTAINER}}`, `{{DATE}}`); removed `{{*_DIR}}` and `{{*_CMD}}` now
+  that directories and commands are wired to the fixed layers. README documents exactly which file
+  holds each placeholder.
+- **CI** reworked into one guarded job per layer that auto-skips until the layer has code, so the
+  template stays green.
+- README bootstrap flow switched from `degit` to a GitHub-native clone/template flow.
+
 ## [0.1.0] - 2026-06-22
 
 ### Added

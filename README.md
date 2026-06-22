@@ -152,6 +152,10 @@ flowchart LR
 
 ```
 📦 Dataside-DAIS-Template
+├── 🧩 backend/                   # API · domain · data  (Python / FastAPI)
+├── 🎨 frontend/                  # UI  (React + TypeScript + CSS)
+├── 🤖 ai/                        # agents · prompts · RAG  (Python)
+├── ☁️  infra/                    # IaC · deploy  (Terraform)
 ├── 📜 .specify/
 │   └── constitution.md          # the non-negotiable principles (edit per project)
 ├── 📂 specs/
@@ -352,55 +356,84 @@ git push origin v1.0.0
 
 ### 🆕 Starting a brand-new project from this template
 
-**Step 1 — Create the repo.** In `Dataside-Oficial`, click *"Use this template"* (keep `main` as the
-default branch), or scaffold locally:
+This repo is a **GitHub template repository**, so you don't fork or copy by hand — GitHub stamps out
+a fresh, history-free repo for you.
+
+**Step 1 — Create the repo (pick one).**
 
 ```bash
-npx degit Dataside-Oficial/Dataside-DAIS-Template my-app
+# ✅ Option A — GitHub-native (recommended): create in the org + clone, in one command
+gh repo create Dataside-Oficial/my-app \
+  --template Dataside-Oficial/Dataside-DAIS-Template \
+  --private --clone
 cd my-app
 ```
 
-**Step 2 — Fill the placeholders.** Find every `{{...}}` token and replace it:
-
 ```bash
-grep -rl '{{' . --exclude-dir=.git
+# Option B — clone & re-init locally (start your own history)
+git clone https://github.com/Dataside-Oficial/Dataside-DAIS-Template.git my-app
+cd my-app
+rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap from Dataside-DAIS-Template"
+# then create the empty repo on GitHub and push:
+git remote add origin https://github.com/Dataside-Oficial/my-app.git
+git branch -M main && git push -u origin main
 ```
 
-| Placeholder | Replace with |
-|-------------|--------------|
-| `{{PROJECT_NAME}}` / `{{PROJECT_DESCRIPTION}}` | Your project's name and one-line description |
-| `{{MAINTAINER}}` / `{{DATE}}` | Owner and ratification date of the Constitution |
-| `{{PYTHON_DIR}}` / `{{NODE_DIR}}` / `{{FRONTEND_DIR}}` | Working directories per stack |
-| `{{LINT_CMD}}` / `{{FORMAT_CMD}}` / `{{TEST_CMD}}` / `{{BUILD_CMD}}` | Your real commands |
+> 💡 Renaming the folder = renaming your project. The directory you clone into (`my-app`) is your
+> project root — there's nothing else to rename.
 
-> #### ⚠️ How to fill the variables — they are **not** environment variables
+**Step 2 — Keep the layers you need.** The architecture skeleton already exists; just **delete the
+folders you won't use** (a headless API drops `frontend/`; a project with no AI drops `ai/`):
+
+```
+my-app/
+├── backend/    # Python / FastAPI      ── keep / delete
+├── frontend/   # React + TS + CSS      ── keep / delete
+├── ai/         # agents · prompts · RAG ── keep / delete
+└── infra/      # Terraform / IaC       ── keep / delete
+```
+
+**Step 3 — Fill 4 placeholders (only project identity is templated).** The directories and commands
+are already wired, so all that's left is *who/what this project is*. Here's **exactly where each one
+lives**:
+
+| Placeholder | What it is | Files that contain it |
+|-------------|------------|-----------------------|
+| `{{PROJECT_NAME}}` | Project name | `.specify/constitution.md` · `.claude/agents/*.md` |
+| `{{PROJECT_DESCRIPTION}}` | One-line description | `CLAUDE.md` · `AGENTS.md` · `.specify/constitution.md` |
+| `{{MAINTAINER}}` | Owner / maintainer | `.specify/constitution.md` |
+| `{{DATE}}` | Constitution ratification date | `.specify/constitution.md` |
+
+List every remaining one anytime with `grep -rn '{{' . --exclude-dir=.git`. To replace one value
+across all files in a single shot (repeat per placeholder):
+
+```bash
+# macOS (BSD sed). On Linux drop the '' after -i.
+grep -rl '{{PROJECT_NAME}}' . --exclude-dir=.git | xargs sed -i '' 's/{{PROJECT_NAME}}/My App/g'
+```
+
+> #### ⚠️ These placeholders are **not** environment variables
 >
-> The `{{...}}` tokens are **literal placeholders baked into the template's files** (`CLAUDE.md`,
-> `.specify/constitution.md`, `.github/workflows/ci.yml`, `docs/…`). You replace them **once, by
-> hand**, when you bootstrap the project — they become permanent text in your repo, not runtime
-> config. They never go in a `.env`.
->
-> **Don't confuse them with runtime secrets.** API keys, database URLs, and tokens *do* live in a
-> local `.env` file and in **GitHub Actions secrets** — never committed (constitution §5). So:
+> They're literal text inside the repo's files — you replace them **once**, and they're committed as
+> plain text. **Runtime secrets are a different thing**: API keys and DB URLs go in a local `.env`
+> and in **GitHub Actions secrets**, never committed (constitution §5).
 >
 > | Kind | Example | Lives in | Committed? |
 > |------|---------|----------|------------|
-> | Template placeholder | `{{PROJECT_NAME}}`, `{{TEST_CMD}}` | the repo's files (replaced once) | ✅ yes, as plain text |
+> | Template placeholder | `{{PROJECT_NAME}}` | the repo's files (replaced once) | ✅ yes, as plain text |
 > | Runtime secret | `OPENAI_API_KEY`, `DATABASE_URL` | `.env` locally · CI secrets on GitHub | ❌ never |
 
-**Step 3 — Pick your stack.** In [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and the
-`/verify-gates` skill, **keep** the Python / Node / frontend jobs you use, **delete** the rest, and
-fill in the real commands. (A FastAPI/LangGraph service keeps the Python job; a React app keeps the
-frontend job; a full-stack app keeps both.)
+**Step 4 — Adjust the stack (optional).** Each layer ships a sensible default (Python for
+`backend/`+`ai/`, React/TS for `frontend/`, Terraform for `infra/`). If a layer uses something else,
+change its tooling in [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and the `/verify-gates`
+skill — they're already pointed at the right folders. (CI auto-skips any layer until it has code.)
 
-**Step 4 — Adapt the Constitution.** Keep §1–§6 (generic), keep or delete §7 (bilingual), and **add**
+**Step 5 — Adapt the Constitution.** Keep §1–§6 (generic), keep or delete §7 (bilingual), and **add**
 any project-specific principle — an event-protocol contract, a single source of truth for a data
 model, provider rules.
 
-**Step 5 — Replace the placeholder docs.** `docs/architecture.md` describes *your* system; `CLAUDE.md`
-gets the project's real commands and architecture notes.
-
-**Step 6 — Write spec `000`** and build the first feature the SDD + TDD way. **Never jump to code.**
+**Step 6 — Replace the placeholder docs & write spec `000`.** `docs/architecture.md` describes *your*
+system; then build the first feature the SDD + TDD way. **Never jump to code.**
 
 ### ♻️ Adopting it into an existing project
 

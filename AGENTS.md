@@ -51,7 +51,22 @@ constitution gates) before declaring anything done.
 
 ## Commands
 
-> Fill these in for your stack (keep identical to `CLAUDE.md`).
+> Default layered architecture: `backend/` · `frontend/` · `ai/` · `infra/`. Run each layer's gates
+> from its own folder. Keep identical to `CLAUDE.md` (§6). Adjust tooling per stack; delete unused layers.
+
+```bash
+# backend/ — Python (FastAPI)
+ruff check . && ruff format --check . && pytest -q
+
+# ai/ — Python (agents, prompts, RAG)
+ruff check . && pytest -q
+
+# frontend/ — React + TypeScript + CSS
+npm run lint && npm test && npm run build
+
+# infra/ — Terraform / IaC
+terraform fmt -check -recursive && terraform validate
+```
 
 ## Architecture — the load-bearing ideas
 

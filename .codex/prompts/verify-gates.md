@@ -3,24 +3,30 @@
 Run the local mirror of CI (the project's definition of done) and report pass/fail. Mirrors
 `.github/workflows/ci.yml` + the constitution gates (§3). Do not claim done on red; paste failing output.
 
-> Fill in the commands for this project's stack; delete the blocks that don't apply.
+> Run each layer's gates from its own folder; skip the layers the project doesn't use.
 
-## Python backend (from {{PYTHON_DIR}})
+## `backend/` — Python (FastAPI)
 
 ```bash
 ruff check . && ruff format --check . && pytest -q
 ```
 
-## Node / TS backend (from {{NODE_DIR}})
+## `ai/` — Python (agents, prompts, RAG)
+
+```bash
+ruff check . && pytest -q
+```
+
+## `frontend/` — React + TypeScript + CSS
 
 ```bash
 npm run lint && npm test && npm run build
 ```
 
-## Frontend — React / TS / CSS (from {{FRONTEND_DIR}})
+## `infra/` — Terraform / IaC
 
 ```bash
-npm run build && npm test
+terraform fmt -check -recursive && terraform validate
 ```
 
 ## Cross-cutting gates (inspect the diff)

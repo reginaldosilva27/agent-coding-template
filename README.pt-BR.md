@@ -153,6 +153,10 @@ flowchart LR
 
 ```
 📦 Dataside-DAIS-Template
+├── 🧩 backend/                   # API · domínio · dados  (Python / FastAPI)
+├── 🎨 frontend/                  # UI  (React + TypeScript + CSS)
+├── 🤖 ai/                        # agents · prompts · RAG  (Python)
+├── ☁️  infra/                    # IaC · deploy  (Terraform)
 ├── 📜 .specify/
 │   └── constitution.md          # os princípios inegociáveis (edite por projeto)
 ├── 📂 specs/
@@ -354,56 +358,86 @@ git push origin v1.0.0
 
 ### 🆕 Começando um projeto novo a partir deste template
 
-**Passo 1 — Crie o repositório.** Em `Dataside-Oficial`, clique em *"Use this template"* (mantenha
-`main` como branch padrão), ou faça o scaffold localmente:
+Este repo é um **GitHub template repository**, então você não faz fork nem copia na mão — o GitHub
+gera um repositório novo, sem histórico, pra você.
+
+**Passo 1 — Crie o repositório (escolha um).**
 
 ```bash
-npx degit Dataside-Oficial/Dataside-DAIS-Template meu-app
+# ✅ Opção A — nativo do GitHub (recomendado): cria na org + clona, num comando só
+gh repo create Dataside-Oficial/meu-app \
+  --template Dataside-Oficial/Dataside-DAIS-Template \
+  --private --clone
 cd meu-app
 ```
 
-**Passo 2 — Preencha os placeholders.** Encontre cada token `{{...}}` e substitua:
-
 ```bash
-grep -rl '{{' . --exclude-dir=.git
+# Opção B — clonar & re-inicializar localmente (começa seu próprio histórico)
+git clone https://github.com/Dataside-Oficial/Dataside-DAIS-Template.git meu-app
+cd meu-app
+rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap a partir do Dataside-DAIS-Template"
+# depois crie o repo vazio no GitHub e dê push:
+git remote add origin https://github.com/Dataside-Oficial/meu-app.git
+git branch -M main && git push -u origin main
 ```
 
-| Placeholder | Substitua por |
-|-------------|---------------|
-| `{{PROJECT_NAME}}` / `{{PROJECT_DESCRIPTION}}` | Nome e descrição em uma linha do projeto |
-| `{{MAINTAINER}}` / `{{DATE}}` | Responsável e data de ratificação da Constituição |
-| `{{PYTHON_DIR}}` / `{{NODE_DIR}}` / `{{FRONTEND_DIR}}` | Diretórios de trabalho por stack |
-| `{{LINT_CMD}}` / `{{FORMAT_CMD}}` / `{{TEST_CMD}}` / `{{BUILD_CMD}}` | Seus comandos reais |
+> 💡 Renomear a pasta = renomear o projeto. O diretório onde você clona (`meu-app`) é a raiz do seu
+> projeto — não há mais nada para renomear.
 
-> #### ⚠️ Como preencher as variáveis — elas **não** são variáveis de ambiente
+**Passo 2 — Mantenha só as camadas que você usa.** O esqueleto de arquitetura já existe; basta
+**apagar as pastas que não vai usar** (uma API headless apaga `frontend/`; um projeto sem IA apaga
+`ai/`):
+
+```
+meu-app/
+├── backend/    # Python / FastAPI      ── manter / apagar
+├── frontend/   # React + TS + CSS      ── manter / apagar
+├── ai/         # agents · prompts · RAG ── manter / apagar
+└── infra/      # Terraform / IaC       ── manter / apagar
+```
+
+**Passo 3 — Preencha 4 placeholders (só a identidade do projeto é templada).** Os diretórios e
+comandos já estão ligados, então só resta dizer *quem/o que é este projeto*. Veja **exatamente onde
+cada um vive**:
+
+| Placeholder | O que é | Arquivos que o contêm |
+|-------------|---------|-----------------------|
+| `{{PROJECT_NAME}}` | Nome do projeto | `.specify/constitution.md` · `.claude/agents/*.md` |
+| `{{PROJECT_DESCRIPTION}}` | Descrição em uma linha | `CLAUDE.md` · `AGENTS.md` · `.specify/constitution.md` |
+| `{{MAINTAINER}}` | Responsável / mantenedor | `.specify/constitution.md` |
+| `{{DATE}}` | Data de ratificação da Constituição | `.specify/constitution.md` |
+
+Liste os que sobraram a qualquer momento com `grep -rn '{{' . --exclude-dir=.git`. Para substituir um
+valor em todos os arquivos de uma vez (repita por placeholder):
+
+```bash
+# macOS (BSD sed). No Linux, remova o '' depois do -i.
+grep -rl '{{PROJECT_NAME}}' . --exclude-dir=.git | xargs sed -i '' 's/{{PROJECT_NAME}}/Meu App/g'
+```
+
+> #### ⚠️ Esses placeholders **não** são variáveis de ambiente
 >
-> Os tokens `{{...}}` são **placeholders literais embutidos nos arquivos do template** (`CLAUDE.md`,
-> `.specify/constitution.md`, `.github/workflows/ci.yml`, `docs/…`). Você os substitui **uma vez, na
-> mão**, ao iniciar o projeto — eles viram texto permanente no seu repositório, não configuração de
-> runtime. Eles **nunca** vão em um `.env`.
->
-> **Não confunda com secrets de runtime.** Chaves de API, URLs de banco e tokens *esses sim* vivem em
-> um `.env` local e em **secrets do GitHub Actions** — nunca commitados (constituição §5). Resumindo:
+> São texto literal dentro dos arquivos do repo — você os substitui **uma vez**, e ficam commitados
+> como texto. **Secrets de runtime são outra coisa**: chaves de API e URLs de banco vão em um `.env`
+> local e em **secrets do GitHub Actions**, nunca commitados (constituição §5).
 >
 > | Tipo | Exemplo | Vive em | Commitado? |
 > |------|---------|---------|------------|
-> | Placeholder do template | `{{PROJECT_NAME}}`, `{{TEST_CMD}}` | nos arquivos do repo (substituído 1×) | ✅ sim, como texto |
+> | Placeholder do template | `{{PROJECT_NAME}}` | nos arquivos do repo (substituído 1×) | ✅ sim, como texto |
 > | Secret de runtime | `OPENAI_API_KEY`, `DATABASE_URL` | `.env` local · secrets do CI no GitHub | ❌ nunca |
 
-**Passo 3 — Escolha sua stack.** Em [`.github/workflows/ci.yml`](.github/workflows/ci.yml) e na skill
-`/verify-gates`, **mantenha** os jobs de Python / Node / frontend que você usa, **apague** o resto e
-preencha os comandos reais. (Um serviço FastAPI/LangGraph mantém o job de Python; um app React mantém
-o de frontend; um app full-stack mantém os dois.)
+**Passo 4 — Ajuste a stack (opcional).** Cada camada já vem com um default sensato (Python para
+`backend/`+`ai/`, React/TS para `frontend/`, Terraform para `infra/`). Se uma camada usar outra coisa,
+troque o tooling em [`.github/workflows/ci.yml`](.github/workflows/ci.yml) e na skill `/verify-gates`
+— eles já apontam para as pastas certas. (O CI pula automaticamente cada camada até ela ter código.)
 
-**Passo 4 — Adapte a Constituição.** Mantenha §1–§6 (genéricos), mantenha ou apague §7 (bilíngue) e
+**Passo 5 — Adapte a Constituição.** Mantenha §1–§6 (genéricos), mantenha ou apague §7 (bilíngue) e
 **adicione** qualquer princípio específico do projeto — um contrato de protocolo de eventos, uma fonte
 única da verdade de um modelo de dados, regras de provider.
 
-**Passo 5 — Substitua os docs de placeholder.** `docs/architecture.md` descreve o *seu* sistema;
-`CLAUDE.md` recebe os comandos e notas de arquitetura reais do projeto.
-
-**Passo 6 — Escreva a spec `000`** e construa a primeira feature do jeito SDD + TDD. **Nunca pule
-direto para o código.**
+**Passo 6 — Substitua os docs de placeholder & escreva a spec `000`.** `docs/architecture.md` descreve
+o *seu* sistema; depois construa a primeira feature do jeito SDD + TDD. **Nunca pule direto para o
+código.**
 
 ### ♻️ Adotando em um projeto já existente
 
