@@ -5,14 +5,13 @@
 ### A reusable starting point that gives every project the same engineering discipline
 
 **Spec-Driven Development (SDD)** · **Test-Driven Development (TDD)** · a project **Constitution**
-ready-to-use **Claude Code** & **Codex** workflows · automated **Releases** & **Changelog**
+ready-to-use **Claude Code** skills & review subagents · automated **Releases** & **Changelog**
 
 <br />
 
 ![SDD](https://img.shields.io/badge/Spec--Driven-mandatory-2563eb?style=for-the-badge)
 ![TDD](https://img.shields.io/badge/Test--Driven-mandatory-16a34a?style=for-the-badge)
 ![Claude Code](https://img.shields.io/badge/Claude_Code-ready-d97706?style=for-the-badge)
-![Codex](https://img.shields.io/badge/Codex-parity-7c3aed?style=for-the-badge)
 
 <br />
 
@@ -27,14 +26,11 @@ ready-to-use **Claude Code** & **Codex** workflows · automated **Releases** & *
 1. [Introduction](#-1-introduction)
 2. [Project Architecture](#-2-project-architecture)
 3. [Concepts & Philosophy](#-3-concepts--philosophy)
-4. [How to Use This Project](#-4-how-to-use-this-project)
-5. [Using with Claude Code](#-5-using-with-claude-code)
-6. [Using with Codex](#-6-using-with-codex)
-7. [Agents & Skills Explained](#-7-agents--skills-explained)
-8. [CI Flow & Workflows](#-8-ci-flow--workflows)
-9. [Releases & Changelog](#-9-releases--changelog)
-10. [Using It on a Real Dataside Project](#-10-using-it-on-a-real-dataside-project)
-11. [Roadmap — Dataside Standards](#-11-roadmap--dataside-standards)
+4. [Skills & Subagents in Claude Code](#-4-skills--subagents-in-claude-code)
+5. [CI Flow and Workflows](#-5-ci-flow-and-workflows)
+6. [Releases and Changelog](#-6-releases-and-changelog)
+7. [Using It on a Real Dataside Project](#-7-using-it-on-a-real-dataside-project)
+8. [Roadmap — Dataside Standards](#-8-roadmap--dataside-standards)
 
 ---
 
@@ -52,13 +48,53 @@ What you get out of the box:
 | 📜 | A **Constitution** — the principles every change must respect, with an amendment process. |
 | 🧩 | **Spec-Driven Development** — write the *what* and *why* before the code, reviewed first. |
 | 🧪 | **Test-Driven Development** — acceptance criteria become failing tests before implementation. |
-| 🤖 | **Claude Code** skills & review agents, ready to invoke. |
-| 🔁 | **Codex parity** — the same standards, mirrored for OpenAI Codex. |
+| 🤖 | **Claude Code** skills & review subagents, ready to invoke. |
 | ⚙️ | **CI workflows** — multi-stack quality gates (Python / Node / frontend presets). |
 | 🏷️ | **Automated Releases** — push a `vX.Y.Z` tag → a GitHub Release with auto notes. |
 
 > **The one-line philosophy:** *No feature code without a spec. No behavior change without a failing
 > test first. Not "done" until the gates are green.*
+
+### 🗺️ The journey of a new feature
+
+Every feature travels the same path — from idea to merged PR. The Claude Code skills (in **orange**)
+and review subagents (in **purple**) plug into each step:
+
+```mermaid
+flowchart TD
+    Start(["💡 New feature idea"]) --> Q{"Needs a spec?<br/>new behavior or<br/>public contract?"}
+
+    Q -->|"Yes — feature"| Spec["🆕 <b>/new-spec</b><br/>scaffold specs/NNN/<br/>WHAT + WHY"]
+    Q -->|"No — bug / chore"| Red
+
+    Spec --> Clarify["🔍 <b>/grilling</b><br/>clarify open questions,<br/>one at a time"]
+    Clarify --> Plan["🗺️ plan.md → tasks.md<br/>HOW + TDD checklist"]
+    Plan --> Red
+
+    Red["🔴 Write a failing test"] --> Green["🟢 Make it pass"]
+    Green --> Refactor["♻️ Refactor"]
+    Refactor --> More{"More tasks?"}
+    More -->|"Yes"| Red
+    More -->|"No"| Verify["🚦 <b>/verify-gates</b><br/>lint · tests · build"]
+
+    Verify --> Review["🔎 spawn review subagents<br/><b>code-reviewer</b> · <b>test-reviewer</b>"]
+    Review --> PR(["✅ Open PR"])
+
+    style Start fill:#1e293b,color:#fff
+    style Q fill:#0f172a,color:#fff
+    style More fill:#0f172a,color:#fff
+    style Spec fill:#d97706,color:#fff
+    style Clarify fill:#d97706,color:#fff
+    style Verify fill:#d97706,color:#fff
+    style Review fill:#7c3aed,color:#fff
+    style Red fill:#dc2626,color:#fff
+    style Green fill:#16a34a,color:#fff
+    style Refactor fill:#0d9488,color:#fff
+    style PR fill:#16a34a,color:#fff
+```
+
+> A real walk-through of this flow inside Claude Code is in
+> [§4 — Skills & Subagents](#-4-skills--subagents-in-claude-code).
 
 ---
 
@@ -72,15 +108,15 @@ flowchart TD
     C["📜 .specify/constitution.md<br/><b>The Law — single source of truth</b>"]
 
     C --> G["📋 Governance docs"]
-    C --> A["🤖 Agent front doors"]
+    C --> A["🤖 Claude Code front door"]
     C --> E["⚙️ Automated enforcement"]
 
     G --> G1["specs/README.md<br/><i>SDD workflow</i>"]
     G --> G2["docs/development-workflow.md<br/><i>contributor how-to</i>"]
-    G --> G3["CLAUDE.md ↔ AGENTS.md<br/><i>twin agent guidance</i>"]
+    G --> G3["CLAUDE.md<br/><i>always-on agent guidance</i>"]
 
-    A --> A1[".claude/<br/><i>skills + review agents</i>"]
-    A --> A2[".codex/<br/><i>mirrored prompts</i>"]
+    A --> A1[".claude/skills/<br/><i>do the rituals</i>"]
+    A --> A2[".claude/agents/<br/><i>read-only reviewers</i>"]
 
     E --> E1[".github/workflows/ci.yml<br/><i>quality gates</i>"]
     E --> E2[".github/workflows/release.yml<br/><i>tag → release</i>"]
@@ -91,7 +127,7 @@ flowchart TD
     style E fill:#1e293b,color:#fff
 ```
 
-### The development flow (every feature travels this path)
+### The development stages (the conceptual pipeline)
 
 ```mermaid
 flowchart LR
@@ -125,22 +161,21 @@ flowchart LR
 │       ├── plan.md              #   HOW — approach, affected files
 │       └── tasks.md             #   the work, as a TDD checklist
 ├── 🤖 .claude/
-│   ├── README.md                # index of skills & agents
+│   ├── README.md                # index of skills & subagents
 │   ├── skills/                  # new-spec · grilling · verify-gates
 │   └── agents/                  # code-reviewer · test-reviewer · docs-i18n-auditor
-├── 🔁 .codex/
-│   ├── README.md
-│   └── prompts/                 # new-spec · grilling · verify-gates · review-code · review-tests
 ├── ⚙️  .github/workflows/
 │   ├── ci.yml                   # multi-stack quality gates
 │   └── release.yml              # tag vX.Y.Z → GitHub Release
 ├── 📖 docs/
 │   ├── architecture.md          # living description of the running system
 │   └── development-workflow.md  # the contributor companion to the constitution
-├── 🧭 CLAUDE.md                  # guidance for Claude Code
-├── 🧭 AGENTS.md                  # twin guidance for Codex/others (keep in sync)
+├── 🧭 CLAUDE.md                  # always-on guidance for Claude Code
 └── 🏷️  CHANGELOG.md              # Keep a Changelog skeleton
 ```
+
+> 🔁 **Using OpenAI Codex instead of Claude Code?** The same standards are mirrored in `AGENTS.md`
+> and `.codex/` — left out of this guide for now to keep the focus on one tool.
 
 ---
 
@@ -183,166 +218,85 @@ feature can point from every criterion to the test that proves it.
 
 ---
 
-## 🧰 4. How to Use This Project
-
-> **TL;DR** — Create from the template → fill the placeholders → pick your stack → trim the
-> Constitution → write your first spec.
-
-### Step 1 — Create from the template
-
-```bash
-# GitHub: click "Use this template" → "Create a new repository"
-# …or scaffold locally:
-npx degit Dataside-Oficial/Dataside-DAIS-Template my-app
-cd my-app
-```
-
-### Step 2 — Fill the placeholders
-
-Search the repo for `{{...}}` tokens and replace them:
-
-```bash
-grep -rl '{{' . --exclude-dir=.git
-```
-
-| Placeholder | Replace with |
-|-------------|--------------|
-| `{{PROJECT_NAME}}` / `{{PROJECT_DESCRIPTION}}` | Your project's name and one-line description |
-| `{{MAINTAINER}}` / `{{DATE}}` | Owner and ratification date of the Constitution |
-| `{{PYTHON_DIR}}` / `{{NODE_DIR}}` / `{{FRONTEND_DIR}}` | Working directories per stack |
-| `{{LINT_CMD}}` / `{{FORMAT_CMD}}` / `{{TEST_CMD}}` / `{{BUILD_CMD}}` | Your real commands |
-
-### Step 3 — Pick your stack
-
-In [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and the `verify-gates` skill, **keep** the
-Python / Node / frontend jobs you use, **delete** the rest, and fill in the real commands.
-
-### Step 4 — Trim the Constitution
-
-Keep §1–§6 (generic), keep or delete §7 (bilingual), and **add** any project-specific principles
-(an event-protocol contract, a single source of truth for a data model, provider rules…).
-
-### Step 5 — Write spec `000`
-
-Your first feature goes through the `new-spec` skill like everything else. **Never jump to code.**
-
----
-
-## 🟠 5. Using with Claude Code
+## 🤖 4. Skills & Subagents in Claude Code
 
 Claude Code reads [`CLAUDE.md`](CLAUDE.md) automatically — it's the always-on rulebook. The
-[`.claude/`](.claude/) folder adds **skills** (to *do* things) and **agents** (to *check* things).
-
-### Invoke a skill — `/skill-name` or just ask
-
-```text
-/new-spec add user authentication
-/grilling
-/verify-gates
-```
-
-| Skill | When to use it |
-|-------|----------------|
-| 🆕 `new-spec` | A new feature / behavior change / contract change — **before any code** (§1). |
-| 🔍 `grilling` | The **clarify** engine — interviews you one question at a time to kill ambiguity. |
-| 🚦 `verify-gates` | Before "done"/PR — runs the local CI mirror + the cross-cutting gates. |
-
-### A good Claude Code session looks like this
-
-```mermaid
-flowchart LR
-    A["💬 Ask for<br/>a feature"] --> B["🆕 /new-spec"]
-    B --> C["🔍 /grilling<br/>clarify"]
-    C --> D["⌨️ implement<br/>TDD"]
-    D --> E["🚦 /verify-gates"]
-    E --> F["🔎 spawn<br/>review agents"]
-    F --> G["✅ PR"]
-
-    style A fill:#1e293b,color:#fff
-    style G fill:#16a34a,color:#fff
-```
-
----
-
-## 🟣 6. Using with Codex
-
-For contributors on **OpenAI Codex**, the same standards are mirrored. Codex reads
-[`AGENTS.md`](AGENTS.md) at the repo root automatically (the twin of `CLAUDE.md`), and
-[`.codex/prompts/`](.codex/prompts/) holds the prompt equivalents of the Claude skills/agents.
-
-### Invoke a prompt — `/<name>` in Codex
-
-| Prompt | Use it for |
-|--------|------------|
-| `/new-spec` | Scaffold `specs/NNN-*/` before any feature code (§1). |
-| `/grilling` | Clarify — interview one question at a time before code. |
-| `/verify-gates` | Run the local CI mirror + cross-cutting gates before a PR. |
-| `/review-code` | Audit correctness, conventions, one-source-of-truth, scope (read-only). |
-| `/review-tests` | Audit TDD: each AC mapped to a behavioral test (read-only). |
-
-<details>
-<summary><b>If Codex only sees the global prompt dir, link them once</b></summary>
-
-```bash
-mkdir -p ~/.codex/prompts
-ln -sf "$(pwd)/.codex/prompts/"*.md ~/.codex/prompts/
-```
-
-</details>
-
-> 🔄 **Keep both sides in sync (§6):** `CLAUDE.md` ↔ `AGENTS.md`, and each `.claude/` skill/agent ↔
-> its `.codex/prompts/` counterpart — in the **same** commit a rule changes.
-
----
-
-## 🤖 7. Agents & Skills Explained
-
-Two kinds of helpers, with different jobs:
+[`.claude/`](.claude/) folder then adds two kinds of helpers with **different jobs**:
 
 ```mermaid
 flowchart TB
-    subgraph SK["🧩 SKILLS — invoke to <b>DO</b>"]
+    subgraph SK["🧩 SKILLS — invoke to <b>DO</b> a ritual"]
         direction LR
-        S1["new-spec<br/><i>scaffold a spec</i>"]
-        S2["grilling<br/><i>clarify by interview</i>"]
-        S3["verify-gates<br/><i>run the gates</i>"]
+        S1["/new-spec<br/><i>scaffold a spec</i>"]
+        S2["/grilling<br/><i>clarify by interview</i>"]
+        S3["/verify-gates<br/><i>run the gates</i>"]
     end
 
-    subgraph AG["🔎 AGENTS — spawn to <b>CHECK</b> (read-only)"]
+    subgraph AG["🔎 SUBAGENTS — spawn to <b>CHECK</b> (read-only)"]
         direction LR
         A1["code-reviewer<br/><i>correctness + scope</i>"]
         A2["test-reviewer<br/><i>TDD discipline</i>"]
-        A3["docs-i18n-auditor<br/><i>docs + sync + i18n</i>"]
+        A3["docs-i18n-auditor<br/><i>docs + i18n</i>"]
     end
 
-    SK --> AG
+    SK -->|"build with these"| AG
 
     style SK fill:#0d9488,color:#fff
     style AG fill:#7c3aed,color:#fff
 ```
 
-### 🧩 Skills — do the recurring rituals
+- **🧩 Skills** encode a multi-file ritual so you don't do it by hand. You invoke them with a slash
+  command (`/new-spec`) or just by asking. They **edit files and drive the workflow**.
+- **🔎 Subagents** are read-only reviewers. They **report, they don't edit** — spawn them before a PR
+  for the area you touched.
 
-A skill encodes a multi-file ritual so you don't do it by hand. `new-spec` copies the template and
-wires the numbering; `grilling` interviews you to resolve open questions; `verify-gates` runs the
-full local mirror of CI.
+| Helper | Type | What it does |
+|--------|------|--------------|
+| `/new-spec` | 🧩 skill | Scaffolds `specs/NNN-*/` from the template — **before any code** (§1). |
+| `/grilling` | 🧩 skill | The **clarify** engine — interviews you one question at a time to kill ambiguity. |
+| `/verify-gates` | 🧩 skill | Runs the local CI mirror + the cross-cutting constitution gates. |
+| `code-reviewer` | 🔎 subagent | Correctness, conventions, one-source-of-truth, scope. |
+| `test-reviewer` | 🔎 subagent | Each acceptance criterion mapped to a behavioral test. |
+| `docs-i18n-auditor` | 🔎 subagent | Docs follow code, `en`/`pt` parity (if bilingual). |
 
-### 🔎 Agents — read-only reviewers
+### 🎬 A real session — building "password reset"
 
-Agents **report, they don't edit.** Spawn them before a PR for the area you touched:
+Here's what the flow above actually looks like as a conversation with Claude Code:
 
-| Agent | What it reviews |
-|-------|-----------------|
-| `code-reviewer` | Correctness, conventions, one-source-of-truth, no-fake, scope. |
-| `test-reviewer` | Each acceptance criterion mapped to a test, behavioral assertions, real deps. |
-| `docs-i18n-auditor` | Docs follow code, `CLAUDE.md` ↔ `AGENTS.md` sync, `en`/`pt` parity. |
+```text
+You    ▶  /new-spec password reset via email link
+Claude ▶  📁 Created specs/003-password-reset/ (spec.md, plan.md, tasks.md)
+          Drafted spec.md with 4 acceptance criteria. A few open questions remain.
 
-> 💡 **Extend it:** add project-specific skills (`add-endpoint`, `add-db-table`, …) under
-> `.claude/skills/` and **mirror each in `.codex/prompts/`**.
+You    ▶  /grilling
+Claude ▶  Q1: Should the reset link expire? (Recommended: yes, 30 min) ─ your answer?
+You    ▶  yes, 30 minutes
+Claude ▶  Q2: One active reset token per user, or many? (Recommended: one) ─ ?
+          …folds every answer back into spec.md, moves it to "clarified".
+
+You    ▶  plan it, then implement task by task
+Claude ▶  🔴 AC-1 → writes failing test test_reset_link_expires() …
+          🟢 implements until it passes …
+          ♻️ refactors. Checks the box. Moves to AC-2.
+
+You    ▶  /verify-gates
+Claude ▶  ✅ lint · ✅ 12 tests · ✅ build — all green.
+
+You    ▶  use the code-reviewer and test-reviewer subagents on my changes
+Claude ▶  🔎 code-reviewer: 1 finding (token compare not constant-time) …
+          🔎 test-reviewer: every AC maps to a test ✓. No findings.
+```
+
+> 💡 **Two ways to invoke a subagent:** ask in plain language (*"review my changes with the
+> code-reviewer"*) or let Claude spawn it automatically at the review step. Either way it only
+> **reads** — you stay in control of every edit.
+
+> ➕ **Extend it:** add project-specific skills (`add-endpoint`, `add-db-table`, …) under
+> `.claude/skills/` to encode your codebase's recurring multi-file rituals.
 
 ---
 
-## 🔄 8. CI Flow & Workflows
+## 🔄 5. CI Flow and Workflows
 
 The quality gates in the Constitution (§3) are enforced by [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 It ships with **presets** for Python, Node, and frontend — keep what you use, delete the rest.
@@ -361,12 +315,12 @@ flowchart LR
     style NO fill:#dc2626,color:#fff
 ```
 
-> 🔗 **The golden rule:** `ci.yml` and the `verify-gates` skill must stay in lockstep — the local
+> 🔗 **The golden rule:** `ci.yml` and the `/verify-gates` skill must stay in lockstep — the local
 > command you run is exactly what CI enforces, so "green locally" means "green in CI."
 
 ---
 
-## 🚢 9. Releases & Changelog
+## 🚢 6. Releases and Changelog
 
 Releases are automated by [`.github/workflows/release.yml`](.github/workflows/release.yml) and follow
 [Semantic Versioning](https://semver.org/) + [Keep a Changelog](https://keepachangelog.com/).
@@ -394,21 +348,59 @@ git push origin v1.0.0
 
 ---
 
-## 🟢 10. Using It on a Real Dataside Project
+## 🟢 7. Using It on a Real Dataside Project
 
 ### 🆕 Starting a brand-new project from this template
 
-1. **Create the repo** in `Dataside-Oficial` via *"Use this template"* (keep `main` as the default
-   branch).
-2. **Replace the placeholders** (Step 2 above) — give the Constitution a real project name, owner,
-   and date.
-3. **Choose the stack** in `ci.yml` + `verify-gates`: a FastAPI/LangGraph service keeps the Python
-   job; a React app keeps the frontend job; a full-stack app keeps both.
-4. **Adapt the Constitution to the project:** delete §7 if there's no UI; add a principle for any
-   contract the project must protect (e.g. an event protocol, a data-model source of truth).
-5. **Replace the placeholder docs:** `docs/architecture.md` describes *your* system;
-   `CLAUDE.md` / `AGENTS.md` get the project's real commands and architecture notes.
-6. **Write spec `000`** and build the first feature the SDD + TDD way.
+**Step 1 — Create the repo.** In `Dataside-Oficial`, click *"Use this template"* (keep `main` as the
+default branch), or scaffold locally:
+
+```bash
+npx degit Dataside-Oficial/Dataside-DAIS-Template my-app
+cd my-app
+```
+
+**Step 2 — Fill the placeholders.** Find every `{{...}}` token and replace it:
+
+```bash
+grep -rl '{{' . --exclude-dir=.git
+```
+
+| Placeholder | Replace with |
+|-------------|--------------|
+| `{{PROJECT_NAME}}` / `{{PROJECT_DESCRIPTION}}` | Your project's name and one-line description |
+| `{{MAINTAINER}}` / `{{DATE}}` | Owner and ratification date of the Constitution |
+| `{{PYTHON_DIR}}` / `{{NODE_DIR}}` / `{{FRONTEND_DIR}}` | Working directories per stack |
+| `{{LINT_CMD}}` / `{{FORMAT_CMD}}` / `{{TEST_CMD}}` / `{{BUILD_CMD}}` | Your real commands |
+
+> #### ⚠️ How to fill the variables — they are **not** environment variables
+>
+> The `{{...}}` tokens are **literal placeholders baked into the template's files** (`CLAUDE.md`,
+> `.specify/constitution.md`, `.github/workflows/ci.yml`, `docs/…`). You replace them **once, by
+> hand**, when you bootstrap the project — they become permanent text in your repo, not runtime
+> config. They never go in a `.env`.
+>
+> **Don't confuse them with runtime secrets.** API keys, database URLs, and tokens *do* live in a
+> local `.env` file and in **GitHub Actions secrets** — never committed (constitution §5). So:
+>
+> | Kind | Example | Lives in | Committed? |
+> |------|---------|----------|------------|
+> | Template placeholder | `{{PROJECT_NAME}}`, `{{TEST_CMD}}` | the repo's files (replaced once) | ✅ yes, as plain text |
+> | Runtime secret | `OPENAI_API_KEY`, `DATABASE_URL` | `.env` locally · CI secrets on GitHub | ❌ never |
+
+**Step 3 — Pick your stack.** In [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and the
+`/verify-gates` skill, **keep** the Python / Node / frontend jobs you use, **delete** the rest, and
+fill in the real commands. (A FastAPI/LangGraph service keeps the Python job; a React app keeps the
+frontend job; a full-stack app keeps both.)
+
+**Step 4 — Adapt the Constitution.** Keep §1–§6 (generic), keep or delete §7 (bilingual), and **add**
+any project-specific principle — an event-protocol contract, a single source of truth for a data
+model, provider rules.
+
+**Step 5 — Replace the placeholder docs.** `docs/architecture.md` describes *your* system; `CLAUDE.md`
+gets the project's real commands and architecture notes.
+
+**Step 6 — Write spec `000`** and build the first feature the SDD + TDD way. **Never jump to code.**
 
 ### ♻️ Adopting it into an existing project
 
@@ -417,7 +409,7 @@ You don't need to restart — copy the discipline in:
 | Bring in | From the template | Then |
 |----------|-------------------|------|
 | Governance | `.specify/`, `specs/`, `docs/development-workflow.md` | Adapt the Constitution to what the project already does. |
-| Agent front doors | `.claude/`, `.codex/`, `CLAUDE.md`, `AGENTS.md` | Merge with any existing `CLAUDE.md`; fill in real commands. |
+| Claude Code front door | `.claude/`, `CLAUDE.md` | Merge with any existing `CLAUDE.md`; fill in real commands. |
 | Enforcement | `.github/workflows/` | Reconcile with existing CI; point the gates at the real test/lint commands. |
 
 > ✅ **Adoption rule of thumb:** new work follows SDD + TDD from day one. You don't retro-spec the
@@ -425,16 +417,21 @@ You don't need to restart — copy the discipline in:
 
 ---
 
-## 🎨 11. Roadmap — Dataside Standards
+## 🎨 8. Roadmap — Dataside Standards
 
-> 🚧 **Coming soon.** This section will grow into the home for **Dataside-wide standards**, so teams
-> stop reinventing (or drifting from) the basics:
+> 🚧 **Coming soon.** This section will grow into the home for **Dataside-wide standards**, so internal
+> and client projects ship with the same engineering identity. The intent is that any project created
+> from this template is *recognizably Dataside* without anyone reinventing the basics:
 
 - 🎨 **Visual identity & frontend** — Dataside colors, design tokens, and component patterns, so no
-  one ships UI that looks off-brand.
-- 🔒 **Security best practices** — secret handling, dependency policy, auth baselines.
+  UI ships off-brand.
+- 🔒 **Security best practices** — secret handling, dependency policy, auth baselines, LGPD/data
+  handling for client engagements.
 - 📐 **Engineering guidelines** — naming, repo structure, branching, and review conventions.
-- ☁️ **Cloud & deployment standards** — the Dataside-blessed way to ship to Azure / the cloud.
+- ☁️ **Data & cloud standards** — the Dataside-blessed way to ship on Azure / Databricks / Snowflake /
+  AWS (the platforms Dataside works on).
+- 🤝 **Internal vs. client presets** — a lightweight switch so a client deliverable carries the right
+  licensing, ownership, and handover docs, while an internal project stays lean.
 
 *Have a standard the whole org should share? Propose it here via PR — it becomes part of the template
 every new project inherits.*
