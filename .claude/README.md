@@ -11,6 +11,7 @@ skills/agents are thin workflows that point at those; they don't restate the law
 | Skill | When |
 |---|---|
 | `new-spec` | New feature / behavior change / contract change — **before any code** (constitution §1). Scaffolds `specs/NNN-*/` from the template. |
+| `grilling` | The **clarify** engine — interviews you one question at a time to resolve a draft spec's open questions (or stress-test a plan) before building. |
 | `verify-gates` | Before "done"/PR — runs the local CI mirror + the cross-cutting constitution gates. |
 
 > Add project-specific skills here (e.g. `add-stage`, `add-db-table`, `add-endpoint`) to

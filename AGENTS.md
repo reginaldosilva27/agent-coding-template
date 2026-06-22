@@ -57,6 +57,21 @@ constitution gates) before declaring anything done.
 
 <!-- Mirror the architecture section of CLAUDE.md. Keep both in sync (constitution §6). -->
 
+## Working style — behavioral guardrails
+
+> Behavioral nudges (bias toward caution over churn), not CI-gated. The constitution (§1–§7) is
+> the law above them. Mirror of CLAUDE.md (§6). _(Adapted from Andrej Karpathy's coding guidelines.)_
+
+- **Simplicity first.** Minimum code that solves the problem — nothing speculative: no unrequested
+  features, no abstraction for single-use code, no configurability nobody asked for, no error
+  handling for impossible states. If 200 lines could be 50, rewrite it.
+- **Surgical changes.** Touch only what the request requires; match the surrounding code; don't
+  refactor what isn't broken. Remove only the orphans **your** change created; pre-existing dead
+  code you mention, not delete. Every changed line traces to the request.
+- **Think before coding.** State assumptions; surface multiple interpretations instead of silently
+  picking one; push back when a simpler approach exists. For spec ambiguity, that's the `grilling`
+  (clarify) step.
+
 ## Conventions
 
 - **SDD + TDD are mandatory.**

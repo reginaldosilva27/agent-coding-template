@@ -16,11 +16,11 @@ specs/
   _template/{spec,plan,tasks}.md
 .claude/
   README.md                  # index of skills & agents
-  skills/new-spec, verify-gates
+  skills/new-spec, grilling, verify-gates
   agents/code-reviewer, test-reviewer, docs-i18n-auditor
 .codex/
   README.md
-  prompts/new-spec, verify-gates, review-code, review-tests
+  prompts/new-spec, grilling, verify-gates, review-code, review-tests
 .github/workflows/
   ci.yml                     # multi-stack gates (Python / Node / frontend presets)
   release.yml                # tag vX.Y.Z → GitHub Release with auto notes
