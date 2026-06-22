@@ -1,8 +1,9 @@
 name: CI
 
-# Mirror of the local quality gates (constitution §3). Keep this in lockstep with
-# the `verify-gates` skill. Delete the jobs your project doesn't use; fill in the
-# working-directory and commands for the ones it does.
+# Mirror of the local quality gates (constitution §3). One job per architecture layer
+# (backend · ai · frontend · infra). Each job auto-skips while its layer has no code yet,
+# and activates as soon as the project adds a manifest. Keep this in lockstep with the
+# `verify-gates` skill. Delete the jobs for layers your project doesn't use.
 
 on:
   push:
@@ -10,57 +11,84 @@ on:
   pull_request:
 
 jobs:
-  # ── Python backend ──────────────────────────────────────────────────────────
-  python:
+  # ── backend/ — Python (FastAPI) ─────────────────────────────────────────────
+  backend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend # {{PYTHON_DIR}}
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Lint (ruff)
-        run: ruff check .
-      - name: Tests (pytest)
-        # If the suite hits a real external service, provide the key as a secret.
-        # Keyless guard tests still run; dependent tests should skip without it.
-        # env:
-        #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: pytest -q
+      - name: Lint, format & test (Python)
+        run: |
+          if [ ! -f requirements.txt ] && [ ! -f pyproject.toml ]; then
+            echo "::notice::backend/ not set up yet — skipping."; exit 0
+          fi
+          [ -f requirements.txt ] && pip install -r requirements.txt
+          ruff check .
+          ruff format --check .
+          # If the suite hits a real external service, provide the key as a secret.
+          # env: OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          pytest -q
 
-  # ── Node / TS backend ───────────────────────────────────────────────────────
-  # node:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: . # {{NODE_DIR}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: "20"
-  #     - run: npm ci
-  #     - run: npm run lint
-  #     - run: npm test
-  #     - run: npm run build
+  # ── ai/ — Python (agents, prompts, RAG) ─────────────────────────────────────
+  ai:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lint & test (Python)
+        run: |
+          if [ ! -f requirements.txt ] && [ ! -f pyproject.toml ]; then
+            echo "::notice::ai/ not set up yet — skipping."; exit 0
+          fi
+          [ -f requirements.txt ] && pip install -r requirements.txt
+          ruff check .
+          pytest -q
 
-  # ── Frontend (React / TS / CSS) ─────────────────────────────────────────────
-  # frontend:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: frontend # {{FRONTEND_DIR}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: "20"
-  #     - run: npm ci
-  #     - name: Type-check & build
-  #       run: npm run build
-  #     - name: Tests
-  #       run: npm test
+  # ── frontend/ — React + TypeScript + CSS ────────────────────────────────────
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Lint, test & build (React/TS)
+        run: |
+          if [ ! -f package.json ]; then
+            echo "::notice::frontend/ not set up yet — skipping."; exit 0
+          fi
+          npm ci
+          npm run lint
+          npm test
+          npm run build
+
+  # ── infra/ — Terraform / IaC ────────────────────────────────────────────────
+  infra:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: Format & validate (Terraform)
+        run: |
+          if [ -z "$(ls *.tf 2>/dev/null)" ]; then
+            echo "::notice::infra/ not set up yet — skipping."; exit 0
+          fi
+          terraform fmt -check -recursive
+          terraform init -backend=false
+          terraform validate

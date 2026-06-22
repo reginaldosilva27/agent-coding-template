@@ -5,10 +5,11 @@ description: Run the full local mirror of CI (the project's "definition of done"
 
 A change is **done** only when these are green (constitution §3 "Quality gates"; mirrors `.github/workflows/ci.yml`). Run them, then report a concise pass/fail summary — do not claim done if anything is red; paste the failing output.
 
-> **Fill in the commands for your stack** and delete the blocks that don't apply. Keep this
-> file in lockstep with `.github/workflows/ci.yml` and the constitution's *Quality gates*.
+> Run each layer's gates from its own folder. Skip the layers the project doesn't use; adjust the
+> tooling if a layer uses a different stack. Keep this file in lockstep with
+> `.github/workflows/ci.yml` and the constitution's *Quality gates*.
 
-## Python backend (from `{{PYTHON_DIR}}`)
+## `backend/` — Python (FastAPI)
 
 ```bash
 ruff check .            # lint
@@ -16,19 +17,26 @@ ruff format --check .   # formatting (use `ruff format .` to fix)
 pytest -q               # tests
 ```
 
-## Node / TS backend (from `{{NODE_DIR}}`)
+## `ai/` — Python (agents, prompts, RAG)
+
+```bash
+ruff check .            # lint
+pytest -q               # tests (exercise real provider calls where feasible; skip if no key)
+```
+
+## `frontend/` — React + TypeScript + CSS
 
 ```bash
 npm run lint            # eslint
-npm test                # tests (vitest/jest)
-npm run build           # tsc / build (type errors are gate failures)
+npm test                # component/unit tests
+npm run build           # tsc --noEmit + bundler build (type errors are gate failures)
 ```
 
-## Frontend — React / TS / CSS (from `{{FRONTEND_DIR}}`)
+## `infra/` — Terraform / IaC
 
 ```bash
-npm run build           # tsc --noEmit + bundler build
-npm test                # component/unit tests
+terraform fmt -check -recursive   # formatting
+terraform validate                # config is valid
 ```
 
 ## Cross-cutting gates (the ones tools won't fully catch)

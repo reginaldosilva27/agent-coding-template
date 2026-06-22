@@ -63,13 +63,14 @@ plain strings. A feature is not done until its `pt` text exists alongside its `e
 
 ## Quality gates (must pass before "done")
 
-These mirror [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). **Fill in the
-commands for your stack** (delete the rows that don't apply):
+These mirror [`.github/workflows/ci.yml`](../.github/workflows/ci.yml), run per layer
+(`backend/` · `ai/` · `frontend/` · `infra/`). Adjust the tooling if a layer uses a different
+stack; delete the rows for layers the project doesn't use:
 
-- **Lint** — `{{LINT_CMD}}` (e.g. `ruff check .` · `npm run lint` · `eslint .`)
-- **Format** — `{{FORMAT_CMD}}` (e.g. `ruff format --check .` · `prettier --check .`)
-- **Tests** — `{{TEST_CMD}}` (e.g. `pytest -q` · `npm test` · `vitest run`)
-- **Type-check / build** — `{{BUILD_CMD}}` (e.g. `tsc --noEmit && vite build` · `npm run build`)
+- **`backend/` (Python)** — `ruff check . && ruff format --check . && pytest -q`
+- **`ai/` (Python)** — `ruff check . && pytest -q`
+- **`frontend/` (React/TS)** — `npm run lint && npm test && npm run build`
+- **`infra/` (Terraform)** — `terraform fmt -check -recursive && terraform validate`
 
 Plus the cross-cutting gates from the principles above: spec exists for the feature (§1),
 a failing test drove the change (§2), docs updated in the same change (§4), agent guidance
