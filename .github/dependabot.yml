@@ -1,0 +1,34 @@
+# Dependabot — weekly dependency updates, one entry per layer/ecosystem.
+# Layers may be empty for now; Dependabot no-ops until a manifest exists in the
+# directory. Prune the ecosystems and directories this project doesn't use.
+version: 2
+updates:
+  # backend/ — Python (requirements.txt / pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+
+  # ai/ — Python (requirements.txt / pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/ai"
+    schedule:
+      interval: "weekly"
+
+  # frontend/ — npm (package.json)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+
+  # infra/ — Terraform
+  - package-ecosystem: "terraform"
+    directory: "/infra"
+    schedule:
+      interval: "weekly"
+
+  # GitHub Actions workflows (.github/workflows/)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

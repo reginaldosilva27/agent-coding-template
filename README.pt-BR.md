@@ -56,6 +56,20 @@ O que você ganha sem configurar nada:
 > **A filosofia em uma linha:** *Nenhum código de feature sem uma spec. Nenhuma mudança de
 > comportamento sem um teste que falha primeiro. Nada é "pronto" até os gates ficarem verdes.*
 
+### 🔧 Pré-requisitos & primeira execução
+
+Este template é **agent-native** — as skills e os subagents de revisão rodam *dentro* de um agente de
+IA de código. Escolha um:
+
+- **[Claude Code](https://claude.com/claude-code)** — as skills & subagents de `.claude/` vivem aqui.
+  Invoque digitando `/new-spec` (ou só peça ao Claude para *"escrever a spec primeiro"*); o `CLAUDE.md`
+  é lido automaticamente.
+- **[OpenAI Codex](https://developers.openai.com/codex)** — os prompts em `.codex/prompts/` espelham
+  os mesmos fluxos (`/new-spec`, `/verify-gates`, `/review-code`…); o `AGENTS.md` é lido automaticamente.
+
+> 💡 Os comandos `/` só existem dentro do agente CLI. Clonar o repo num editor comum ainda te dá a
+> constituição, o fluxo de `specs/` e o CI — só sem a automação.
+
 ### 🗺️ A jornada de uma nova feature
 
 Toda feature percorre o mesmo caminho — da ideia ao PR mergeado. As skills do Claude Code (em
@@ -479,6 +493,10 @@ template que todo projeto novo herda.*
 **📜 A lei:** [`.specify/constitution.md`](.specify/constitution.md) ·
 **🔄 O fluxo:** [`specs/README.md`](specs/README.md) ·
 **📖 O guia:** [`docs/development-workflow.md`](docs/development-workflow.md)
+
+<br />
+
+📄 Licenciado sob a [Licença MIT](./LICENSE)
 
 <br />
 

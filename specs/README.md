@@ -58,7 +58,7 @@ Legend: ✅ done · 🔧 in-progress · 📋 planned · 🔍 clarified · ✏️
 
 | # | Feature | Status |
 |---|---|---|
-| 000 | _your first spec_ | ✏️ draft |
+| 001 | [Password reset via email link](001-password-reset/spec.md) — 📦 *example, delete for your project* | ✅ done |
 
 ## How SDD + TDD show up together
 

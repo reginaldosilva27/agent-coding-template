@@ -24,8 +24,9 @@ for Claude Code. Nothing to install.
 | `/verify-gates` | Run the local CI mirror + cross-cutting constitution gates before a PR. |
 | `/review-code` | Audit correctness, conventions, one-source-of-truth, scope (read-only). |
 | `/review-tests` | Audit TDD: each AC mapped to a behavioral test, test-driven (read-only). |
+| `/review-docs` | Audit docs-follow-code, CLAUDE.md ↔ AGENTS.md sync, en/pt parity (read-only). |
 
-> Add a `/review-docs` (and any project-specific) prompt to mirror the agents in `.claude/agents`.
+> Add any project-specific prompts here to mirror the agents in `.claude/agents`.
 
 ### Where Codex looks for prompts
 
