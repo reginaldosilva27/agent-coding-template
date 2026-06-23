@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 How we build here (SDD + TDD)
+    url: https://github.com/reginaldosilva27/agent-coding-template#readme
+    about: Read the README and the Constitution before opening an issue — every change is spec-first and test-first.
+  - name: 🧩 SDD workflow & the Constitution
+    url: https://github.com/reginaldosilva27/agent-coding-template/blob/main/.specify/constitution.md
+    about: The non-negotiable principles (§1–§7) every feature, bug fix, and PR must respect.

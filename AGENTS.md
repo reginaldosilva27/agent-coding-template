@@ -24,14 +24,17 @@ govern this:
 - **`specs/README.md`** — the workflow: `specify → clarify → plan → tasks → implement (TDD) → verify`.
 
 ### New feature → write a spec first (stop and do this)
-When the user asks for a new feature or a behavior change, **do not jump to code** (the
-`.codex/prompts/new-spec.md` prompt automates this):
+When the user asks for a new feature or a behavior change, **do not jump to code** — and **if the
+user skipped it, remind them** before writing any code (the `.codex/prompts/new-spec.md` prompt
+automates this):
 
 1. Copy `specs/_template/` to `specs/NNN-feature-name/` (zero-padded, sequential).
-2. Fill `spec.md` — WHAT + WHY + numbered, testable acceptance criteria. No implementation detail.
+2. Fill `spec.md` — WHAT + WHY + numbered, **testable** acceptance criteria. No implementation detail.
+   Resolve every open question ("clarify") before planning.
 3. Fill `plan.md` — HOW: approach, affected files, contract/data/i18n impact, test strategy (AC → test).
 4. Fill `tasks.md` — ordered TDD checklist; each implement task preceded by its failing test.
-5. Implement red → green → refactor; move the spec's status along.
+5. Implement red → green → refactor, checking boxes; move the spec's status along
+   (`draft → clarified → planned → in-progress → done`).
 
 ### TDD always
 Acceptance criteria (feature) or a reproducing case (bug) become a failing test first; then code makes
@@ -45,9 +48,12 @@ it pass; then refactor. Tests assert behavior, not implementation detail.
 | Bug fix · small adjustment · behavior-preserving refactor | **No** | **Yes** — regression test first |
 | Docs · comments · formatting · dependency bumps · pure chores | No | n/a |
 
+**Gray-zone rule:** when unsure, write the spec.
+
 ### Done means the gates are green
 Run the `.codex/prompts/verify-gates.md` checklist (mirror of `.github/workflows/ci.yml` + the
-constitution gates) before declaring anything done.
+constitution gates) before declaring anything done. Fill the real commands into
+`.codex/prompts/verify-gates.md` and `ci.yml` for this project's stack.
 
 ## Commands
 
@@ -89,8 +95,16 @@ terraform fmt -check -recursive && terraform validate
 
 ## Conventions
 
-- **SDD + TDD are mandatory.**
+- **SDD + TDD are mandatory** (see "How we build here"): a new feature gets a spec under `specs/`
+  before code; a behavior change is driven by a failing test first. This holds even when the request
+  doesn't mention it.
 - **One source of truth (§4)** — mirrors, types, and docs move together.
 - **Honesty (§5)** — nothing mocked is presented as real; misconfiguration fails fast.
 - **Agent guidance in sync (§6)** — `CLAUDE.md` ↔ `AGENTS.md` ↔ `.claude`/`.codex` workflows.
 - _(If bilingual — §7)_ any new user-facing text ships in both English and Portuguese.
+
+## Docs
+
+- `docs/architecture.md` — long-form walkthrough of the running system (kept in sync with the code).
+- `docs/development-workflow.md` — how we build here (SDD + TDD), the contributor companion to the
+  constitution and `specs/README.md`.
