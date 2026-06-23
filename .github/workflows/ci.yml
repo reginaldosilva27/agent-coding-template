@@ -1,0 +1,94 @@
+name: CI
+
+# Mirror of the local quality gates (constitution §3). One job per architecture layer
+# (backend · ai · frontend · infra). Each job auto-skips while its layer has no code yet,
+# and activates as soon as the project adds a manifest. Keep this in lockstep with the
+# `verify-gates` skill. Delete the jobs for layers your project doesn't use.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ── backend/ — Python (FastAPI) ─────────────────────────────────────────────
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Lint, format & test (Python)
+        run: |
+          if [ ! -f requirements.txt ] && [ ! -f pyproject.toml ]; then
+            echo "::notice::backend/ not set up yet — skipping."; exit 0
+          fi
+          [ -f requirements.txt ] && pip install -r requirements.txt
+          ruff check .
+          ruff format --check .
+          # If the suite hits a real external service, provide the key as a secret.
+          # env: OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          pytest -q
+
+  # ── ai/ — Python (agents, prompts, RAG) ─────────────────────────────────────
+  ai:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Lint & test (Python)
+        run: |
+          if [ ! -f requirements.txt ] && [ ! -f pyproject.toml ]; then
+            echo "::notice::ai/ not set up yet — skipping."; exit 0
+          fi
+          [ -f requirements.txt ] && pip install -r requirements.txt
+          ruff check .
+          pytest -q
+
+  # ── frontend/ — React + TypeScript + CSS ────────────────────────────────────
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+      - name: Lint, test & build (React/TS)
+        run: |
+          if [ ! -f package.json ]; then
+            echo "::notice::frontend/ not set up yet — skipping."; exit 0
+          fi
+          npm ci
+          npm run lint
+          npm test
+          npm run build
+
+  # ── infra/ — Terraform / IaC ────────────────────────────────────────────────
+  infra:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v7
+      - uses: hashicorp/setup-terraform@v4
+      - name: Format & validate (Terraform)
+        run: |
+          if [ -z "$(ls *.tf 2>/dev/null)" ]; then
+            echo "::notice::infra/ not set up yet — skipping."; exit 0
+          fi
+          terraform fmt -check -recursive
+          terraform init -backend=false
+          terraform validate

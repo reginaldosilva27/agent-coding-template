@@ -1,0 +1,26 @@
+# EditorConfig — https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Python (backend/, ai/)
+[*.py]
+indent_size = 4
+
+# JS / TS / JSON / YAML / Markdown (frontend/, configs)
+[*.{js,jsx,ts,tsx,json,yml,yaml,md}]
+indent_size = 2
+
+# Markdown — keep trailing whitespace (two spaces = hard line break)
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefiles require real tabs
+[Makefile]
+indent_style = tab
