@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write # needed to create the release
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # full history for the auto-generated changelog
       - name: Create GitHub Release
