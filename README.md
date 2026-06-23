@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧭 Dataside-DAIS-Template
+# 🧭 agent-coding-template
 
 ### A reusable starting point that gives every project the same engineering discipline
 
@@ -29,8 +29,8 @@ ready-to-use **Claude Code** skills & review subagents · automated **Releases**
 4. [Skills & Subagents in Claude Code](#-4-skills--subagents-in-claude-code)
 5. [CI Flow and Workflows](#-5-ci-flow-and-workflows)
 6. [Releases and Changelog](#-6-releases-and-changelog)
-7. [Using It on a Real Dataside Project](#-7-using-it-on-a-real-dataside-project)
-8. [Roadmap — Dataside Standards](#-8-roadmap--dataside-standards)
+7. [Using It on a Real Project](#-7-using-it-on-a-real-project)
+8. [Roadmap — Shared Standards](#-8-roadmap--shared-standards)
 
 ---
 
@@ -151,7 +151,7 @@ flowchart LR
 ### Repository map
 
 ```
-📦 Dataside-DAIS-Template
+📦 agent-coding-template
 ├── 🧩 backend/                   # API · domain · data  (Python / FastAPI)
 ├── 🎨 frontend/                  # UI  (React + TypeScript + CSS)
 ├── 🤖 ai/                        # agents · prompts · RAG  (Python)
@@ -352,7 +352,7 @@ git push origin v1.0.0
 
 ---
 
-## 🟢 7. Using It on a Real Dataside Project
+## 🟢 7. Using It on a Real Project
 
 ### 🆕 Starting a brand-new project from this template
 
@@ -362,20 +362,20 @@ a fresh, history-free repo for you.
 **Step 1 — Create the repo (pick one).**
 
 ```bash
-# ✅ Option A — GitHub-native (recommended): create in the org + clone, in one command
-gh repo create Dataside-Oficial/my-app \
-  --template Dataside-Oficial/Dataside-DAIS-Template \
-  --private --clone
+# ✅ Option A — GitHub-native (recommended): create from the template + clone, in one command
+gh repo create reginaldosilva27/my-app \
+  --template reginaldosilva27/agent-coding-template \
+  --public --clone
 cd my-app
 ```
 
 ```bash
 # Option B — clone & re-init locally (start your own history)
-git clone https://github.com/Dataside-Oficial/Dataside-DAIS-Template.git my-app
+git clone https://github.com/reginaldosilva27/agent-coding-template.git my-app
 cd my-app
-rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap from Dataside-DAIS-Template"
+rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap from agent-coding-template"
 # then create the empty repo on GitHub and push:
-git remote add origin https://github.com/Dataside-Oficial/my-app.git
+git remote add origin https://github.com/reginaldosilva27/my-app.git
 git branch -M main && git push -u origin main
 ```
 
@@ -450,24 +450,19 @@ You don't need to restart — copy the discipline in:
 
 ---
 
-## 🎨 8. Roadmap — Dataside Standards
+## 🎨 8. Roadmap — Shared Standards
 
-> 🚧 **Coming soon.** This section will grow into the home for **Dataside-wide standards**, so internal
-> and client projects ship with the same engineering identity. The intent is that any project created
-> from this template is *recognizably Dataside* without anyone reinventing the basics:
+> 🚧 **Coming soon.** This section will grow into the home for **shared standards**, so every project
+> started from this template ships with the same engineering identity without anyone reinventing the
+> basics:
 
-- 🎨 **Visual identity & frontend** — Dataside colors, design tokens, and component patterns, so no
-  UI ships off-brand.
-- 🔒 **Security best practices** — secret handling, dependency policy, auth baselines, LGPD/data
-  handling for client engagements.
+- 🎨 **Visual identity & frontend** — design tokens and component patterns, so no UI ships off-brand.
+- 🔒 **Security best practices** — secret handling, dependency policy, and auth baselines.
 - 📐 **Engineering guidelines** — naming, repo structure, branching, and review conventions.
-- ☁️ **Data & cloud standards** — the Dataside-blessed way to ship on Azure / Databricks / Snowflake /
-  AWS (the platforms Dataside works on).
-- 🤝 **Internal vs. client presets** — a lightweight switch so a client deliverable carries the right
-  licensing, ownership, and handover docs, while an internal project stays lean.
+- ☁️ **Data & cloud standards** — opinionated ways to ship on Azure / Databricks / Snowflake / AWS.
 
-*Have a standard the whole org should share? Propose it here via PR — it becomes part of the template
-every new project inherits.*
+*Have a standard worth sharing? Propose it here via PR — it becomes part of the template every new
+project inherits.*
 
 ---
 
@@ -479,6 +474,6 @@ every new project inherits.*
 
 <br />
 
-Made with discipline at **Dataside** · [Português 🇧🇷](./README.pt-BR.md)
+Made with discipline by [**@reginaldosilva27**](https://github.com/reginaldosilva27) · [Português 🇧🇷](./README.pt-BR.md)
 
 </div>
