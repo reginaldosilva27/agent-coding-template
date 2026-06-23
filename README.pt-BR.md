@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧭 Dataside-DAIS-Template
+# 🧭 agent-coding-template
 
 ### Um ponto de partida reutilizável que dá a todo projeto a mesma disciplina de engenharia
 
@@ -30,8 +30,8 @@ uma **Constituição** do projeto · skills e subagents de revisão prontos no *
 4. [Skills & Subagents no Claude Code](#-4-skills--subagents-no-claude-code)
 5. [Fluxo de CI e Workflows](#-5-fluxo-de-ci-e-workflows)
 6. [Releases e Changelog](#-6-releases-e-changelog)
-7. [Usando em um Projeto Real da Dataside](#-7-usando-em-um-projeto-real-da-dataside)
-8. [Roadmap — Padrões Dataside](#-8-roadmap--padrões-dataside)
+7. [Usando em um Projeto Real](#-7-usando-em-um-projeto-real)
+8. [Roadmap — Padrões Compartilhados](#-8-roadmap--padrões-compartilhados)
 
 ---
 
@@ -152,7 +152,7 @@ flowchart LR
 ### Mapa do repositório
 
 ```
-📦 Dataside-DAIS-Template
+📦 agent-coding-template
 ├── 🧩 backend/                   # API · domínio · dados  (Python / FastAPI)
 ├── 🎨 frontend/                  # UI  (React + TypeScript + CSS)
 ├── 🤖 ai/                        # agents · prompts · RAG  (Python)
@@ -354,7 +354,7 @@ git push origin v1.0.0
 
 ---
 
-## 🟢 7. Usando em um Projeto Real da Dataside
+## 🟢 7. Usando em um Projeto Real
 
 ### 🆕 Começando um projeto novo a partir deste template
 
@@ -364,20 +364,20 @@ gera um repositório novo, sem histórico, pra você.
 **Passo 1 — Crie o repositório (escolha um).**
 
 ```bash
-# ✅ Opção A — nativo do GitHub (recomendado): cria na org + clona, num comando só
-gh repo create Dataside-Oficial/meu-app \
-  --template Dataside-Oficial/Dataside-DAIS-Template \
-  --private --clone
+# ✅ Opção A — nativo do GitHub (recomendado): cria a partir do template + clona, num comando só
+gh repo create reginaldosilva27/meu-app \
+  --template reginaldosilva27/agent-coding-template \
+  --public --clone
 cd meu-app
 ```
 
 ```bash
 # Opção B — clonar & re-inicializar localmente (começa seu próprio histórico)
-git clone https://github.com/Dataside-Oficial/Dataside-DAIS-Template.git meu-app
+git clone https://github.com/reginaldosilva27/agent-coding-template.git meu-app
 cd meu-app
-rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap a partir do Dataside-DAIS-Template"
+rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap a partir do agent-coding-template"
 # depois crie o repo vazio no GitHub e dê push:
-git remote add origin https://github.com/Dataside-Oficial/meu-app.git
+git remote add origin https://github.com/reginaldosilva27/meu-app.git
 git branch -M main && git push -u origin main
 ```
 
@@ -455,26 +455,22 @@ Você não precisa recomeçar — traga a disciplina para dentro:
 
 ---
 
-## 🎨 8. Roadmap — Padrões Dataside
+## 🎨 8. Roadmap — Padrões Compartilhados
 
-> 🚧 **Em breve.** Esta seção vai crescer até ser a casa dos **padrões de toda a Dataside**, para que
-> projetos internos e de clientes saiam com a mesma identidade de engenharia. A intenção é que qualquer
-> projeto criado a partir deste template seja *reconhecidamente Dataside* sem ninguém reinventar o
-> básico:
+> 🚧 **Em breve.** Esta seção vai crescer até ser a casa dos **padrões compartilhados**, para que todo
+> projeto criado a partir deste template saia com a mesma identidade de engenharia sem ninguém
+> reinventar o básico:
 
-- 🎨 **Identidade visual & frontend** — cores da Dataside, design tokens e padrões de componentes,
-  para nenhuma UI sair fora da marca.
-- 🔒 **Boas práticas de segurança** — tratamento de secrets, política de dependências, baseline de
-  autenticação, LGPD/tratamento de dados em projetos de cliente.
+- 🎨 **Identidade visual & frontend** — design tokens e padrões de componentes, para nenhuma UI sair
+  fora da marca.
+- 🔒 **Boas práticas de segurança** — tratamento de secrets, política de dependências e baseline de
+  autenticação.
 - 📐 **Diretrizes de engenharia** — nomenclatura, estrutura de repositório, branching e convenções de
   revisão.
-- ☁️ **Padrões de dados & cloud** — o jeito abençoado pela Dataside de entregar em Azure / Databricks /
-  Snowflake / AWS (as plataformas em que a Dataside atua).
-- 🤝 **Presets interno vs. cliente** — um interruptor leve para que uma entrega de cliente carregue o
-  licenciamento, a titularidade e os docs de handover corretos, enquanto um projeto interno fica enxuto.
+- ☁️ **Padrões de dados & cloud** — formas opinativas de entregar em Azure / Databricks / Snowflake / AWS.
 
-*Tem um padrão que toda a organização deveria compartilhar? Proponha aqui via PR — ele passa a fazer
-parte do template que todo projeto novo herda.*
+*Tem um padrão que vale a pena compartilhar? Proponha aqui via PR — ele passa a fazer parte do
+template que todo projeto novo herda.*
 
 ---
 
@@ -486,6 +482,6 @@ parte do template que todo projeto novo herda.*
 
 <br />
 
-Feito com disciplina na **Dataside** · [English](./README.md)
+Feito com disciplina por [**@reginaldosilva27**](https://github.com/reginaldosilva27) · [English](./README.md)
 
 </div>

@@ -2,8 +2,8 @@
 
 The **infra** layer — Infrastructure-as-Code, deployment, and cloud wiring.
 
-- **Default stack:** Terraform (Azure / Databricks / Snowflake / AWS — the platforms Dataside works
-  on). Keep environment config and deploy pipelines here.
+- **Default stack:** Terraform (Azure / Databricks / Snowflake / AWS). Keep environment config and
+  deploy pipelines here.
 - **CI:** the `infra` job in [`../.github/workflows/ci.yml`](../.github/workflows/ci.yml) runs
   `terraform fmt -check` + `terraform validate`.
 - **Gates (run from this folder):**
