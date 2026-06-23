@@ -83,7 +83,7 @@ jobs:
         working-directory: infra
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
       - name: Format & validate (Terraform)
         run: |
           if [ -z "$(ls *.tf 2>/dev/null)" ]; then
