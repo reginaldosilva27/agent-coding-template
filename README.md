@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧭 agent-coding-template
+# 🧭 agentic-coding-template
 
 ### A reusable starting point that gives every project the same engineering discipline
 
@@ -165,7 +165,7 @@ flowchart LR
 ### Repository map
 
 ```
-📦 agent-coding-template
+📦 agentic-coding-template
 ├── 🧩 backend/                   # API · domain · data  (Python / FastAPI)
 ├── 🎨 frontend/                  # UI  (React + TypeScript + CSS)
 ├── 🤖 ai/                        # agents · prompts · RAG  (Python)
@@ -378,16 +378,16 @@ a fresh, history-free repo for you.
 ```bash
 # ✅ Option A — GitHub-native (recommended): create from the template + clone, in one command
 gh repo create reginaldosilva27/my-app \
-  --template reginaldosilva27/agent-coding-template \
+  --template reginaldosilva27/agentic-coding-template \
   --public --clone
 cd my-app
 ```
 
 ```bash
 # Option B — clone & re-init locally (start your own history)
-git clone https://github.com/reginaldosilva27/agent-coding-template.git my-app
+git clone https://github.com/reginaldosilva27/agentic-coding-template.git my-app
 cd my-app
-rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap from agent-coding-template"
+rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap from agentic-coding-template"
 # then create the empty repo on GitHub and push:
 git remote add origin https://github.com/reginaldosilva27/my-app.git
 git branch -M main && git push -u origin main

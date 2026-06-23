@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧭 agent-coding-template
+# 🧭 agentic-coding-template
 
 ### Um ponto de partida reutilizável que dá a todo projeto a mesma disciplina de engenharia
 
@@ -166,7 +166,7 @@ flowchart LR
 ### Mapa do repositório
 
 ```
-📦 agent-coding-template
+📦 agentic-coding-template
 ├── 🧩 backend/                   # API · domínio · dados  (Python / FastAPI)
 ├── 🎨 frontend/                  # UI  (React + TypeScript + CSS)
 ├── 🤖 ai/                        # agents · prompts · RAG  (Python)
@@ -380,16 +380,16 @@ gera um repositório novo, sem histórico, pra você.
 ```bash
 # ✅ Opção A — nativo do GitHub (recomendado): cria a partir do template + clona, num comando só
 gh repo create reginaldosilva27/meu-app \
-  --template reginaldosilva27/agent-coding-template \
+  --template reginaldosilva27/agentic-coding-template \
   --public --clone
 cd meu-app
 ```
 
 ```bash
 # Opção B — clonar & re-inicializar localmente (começa seu próprio histórico)
-git clone https://github.com/reginaldosilva27/agent-coding-template.git meu-app
+git clone https://github.com/reginaldosilva27/agentic-coding-template.git meu-app
 cd meu-app
-rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap a partir do agent-coding-template"
+rm -rf .git && git init && git add -A && git commit -m "chore: bootstrap a partir do agentic-coding-template"
 # depois crie o repo vazio no GitHub e dê push:
 git remote add origin https://github.com/reginaldosilva27/meu-app.git
 git branch -M main && git push -u origin main

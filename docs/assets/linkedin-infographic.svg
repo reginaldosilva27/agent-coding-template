@@ -1,0 +1,164 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1120"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <!-- Accent gradients -->
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60a5fa"/>
+      <stop offset="0.5" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="spine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#2563eb"/>
+      <stop offset="0.2" stop-color="#7c3aed"/>
+      <stop offset="0.4" stop-color="#0891b2"/>
+      <stop offset="0.6" stop-color="#0d9488"/>
+      <stop offset="0.8" stop-color="#16a34a"/>
+      <stop offset="1"   stop-color="#d97706"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1080" height="1350" fill="url(#bg)"/>
+  <!-- subtle grid dots -->
+  <g fill="#1e293b" opacity="0.5">
+    <circle cx="60" cy="1290" r="3"/><circle cx="120" cy="1290" r="3"/><circle cx="60" cy="1230" r="3"/>
+    <circle cx="1020" cy="120" r="3"/><circle cx="960" cy="120" r="3"/><circle cx="1020" cy="180" r="3"/>
+  </g>
+
+  <!-- ===================== HEADER ===================== -->
+  <g transform="translate(60,70)">
+    <rect x="0" y="0" rx="14" ry="14" width="270" height="40" fill="#1e293b" stroke="#334155"/>
+    <text x="135" y="26" text-anchor="middle" fill="#94a3b8" font-size="16" font-weight="600" letter-spacing="2">🧭 OPEN-SOURCE TEMPLATE</text>
+  </g>
+  <text x="60" y="190" fill="url(#title)" font-size="74" font-weight="800" letter-spacing="-1">Agentic Coding</text>
+  <text x="60" y="268" fill="#f1f5f9" font-size="74" font-weight="800" letter-spacing="-1">Pipeline</text>
+  <text x="60" y="320" fill="#94a3b8" font-size="27" font-weight="500">Every project inherits the same engineering discipline —</text>
+  <text x="60" y="356" fill="#94a3b8" font-size="27" font-weight="500">whether a human or an AI agent writes the code.</text>
+
+  <!-- Philosophy banner -->
+  <g transform="translate(60,392)">
+    <rect x="0" y="0" rx="16" ry="16" width="960" height="72" fill="#111c33" stroke="#1e3a8a" stroke-width="1.5"/>
+    <rect x="0" y="0" rx="16" ry="16" width="8" height="72" fill="#2563eb"/>
+    <text x="34" y="35" fill="#e2e8f0" font-size="22" font-weight="600">No feature code without a spec.  No behavior change without a failing test.</text>
+    <text x="34" y="60" fill="#60a5fa" font-size="22" font-weight="700">Not “done” until the gates are green.</text>
+  </g>
+
+  <!-- Constitution = the law -->
+  <g transform="translate(60,500)">
+    <rect x="0" y="0" rx="16" ry="16" width="960" height="64" fill="#1e293b" stroke="#334155"/>
+    <text x="28" y="40" font-size="28">📜</text>
+    <text x="72" y="33" fill="#f1f5f9" font-size="22" font-weight="700">The Constitution — the single source of truth</text>
+    <text x="72" y="56" fill="#94a3b8" font-size="18">7 non-negotiable principles · amended on purpose · when things conflict, it wins</text>
+  </g>
+
+  <!-- ===================== PIPELINE ===================== -->
+  <text x="60" y="618" fill="#64748b" font-size="20" font-weight="700" letter-spacing="3">THE PIPELINE — SDD</text>
+  <!-- spine -->
+  <rect x="104" y="650" width="6" height="540" rx="3" fill="url(#spine)" opacity="0.7"/>
+
+  <!-- step generator: each = node circle + card -->
+  <!-- 1 SPECIFY -->
+  <g transform="translate(0,650)">
+    <circle cx="107" cy="35" r="34" fill="#2563eb" filter="url(#shadow)"/>
+    <text x="107" y="46" text-anchor="middle" font-size="30">📝</text>
+    <g filter="url(#shadow)">
+      <rect x="170" y="6" rx="14" ry="14" width="850" height="58" fill="#162033" stroke="#2563eb" stroke-opacity="0.5"/>
+    </g>
+    <text x="196" y="34" fill="#f8fafc" font-size="24" font-weight="700">SPECIFY</text>
+    <text x="196" y="55" fill="#94a3b8" font-size="18">spec.md — the WHAT &amp; WHY, with testable acceptance criteria</text>
+    <text x="998" y="44" text-anchor="end" fill="#3b82f6" font-size="15" font-weight="700">/new-spec</text>
+  </g>
+  <!-- 2 CLARIFY -->
+  <g transform="translate(0,740)">
+    <circle cx="107" cy="35" r="34" fill="#7c3aed" filter="url(#shadow)"/>
+    <text x="107" y="46" text-anchor="middle" font-size="30">🔍</text>
+    <g filter="url(#shadow)">
+      <rect x="170" y="6" rx="14" ry="14" width="850" height="58" fill="#162033" stroke="#7c3aed" stroke-opacity="0.5"/>
+    </g>
+    <text x="196" y="34" fill="#f8fafc" font-size="24" font-weight="700">CLARIFY</text>
+    <text x="196" y="55" fill="#94a3b8" font-size="18">grill open questions away — one at a time — before any code</text>
+    <text x="998" y="44" text-anchor="end" fill="#a78bfa" font-size="15" font-weight="700">/grilling</text>
+  </g>
+  <!-- 3 PLAN -->
+  <g transform="translate(0,830)">
+    <circle cx="107" cy="35" r="34" fill="#0891b2" filter="url(#shadow)"/>
+    <text x="107" y="46" text-anchor="middle" font-size="30">🗺️</text>
+    <g filter="url(#shadow)">
+      <rect x="170" y="6" rx="14" ry="14" width="850" height="58" fill="#162033" stroke="#0891b2" stroke-opacity="0.5"/>
+    </g>
+    <text x="196" y="34" fill="#f8fafc" font-size="24" font-weight="700">PLAN</text>
+    <text x="196" y="55" fill="#94a3b8" font-size="18">plan.md — HOW: approach, affected files, test strategy</text>
+  </g>
+  <!-- 4 TASKS -->
+  <g transform="translate(0,920)">
+    <circle cx="107" cy="35" r="34" fill="#0d9488" filter="url(#shadow)"/>
+    <text x="107" y="46" text-anchor="middle" font-size="30">✅</text>
+    <g filter="url(#shadow)">
+      <rect x="170" y="6" rx="14" ry="14" width="850" height="58" fill="#162033" stroke="#0d9488" stroke-opacity="0.5"/>
+    </g>
+    <text x="196" y="34" fill="#f8fafc" font-size="24" font-weight="700">TASKS</text>
+    <text x="196" y="55" fill="#94a3b8" font-size="18">tasks.md — an ordered checklist, each item paired with its test</text>
+  </g>
+  <!-- 5 IMPLEMENT (TDD) -->
+  <g transform="translate(0,1010)">
+    <circle cx="107" cy="35" r="34" fill="#16a34a" filter="url(#shadow)"/>
+    <text x="107" y="46" text-anchor="middle" font-size="28">⚙️</text>
+    <g filter="url(#shadow)">
+      <rect x="170" y="6" rx="14" ry="14" width="850" height="74" fill="#13241c" stroke="#16a34a" stroke-opacity="0.6"/>
+    </g>
+    <text x="196" y="34" fill="#f8fafc" font-size="24" font-weight="700">IMPLEMENT <tspan fill="#64748b" font-size="17" font-weight="600">— TDD cycle</tspan></text>
+    <!-- red green refactor pills -->
+    <g transform="translate(196,48)">
+      <rect x="0"   y="0" rx="13" width="120" height="26" fill="#dc2626"/>
+      <text x="60"  y="18" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">🔴 RED</text>
+      <text x="132" y="18" fill="#475569" font-size="16">→</text>
+      <rect x="152" y="0" rx="13" width="130" height="26" fill="#16a34a"/>
+      <text x="217" y="18" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">🟢 GREEN</text>
+      <text x="294" y="18" fill="#475569" font-size="16">→</text>
+      <rect x="314" y="0" rx="13" width="160" height="26" fill="#0d9488"/>
+      <text x="394" y="18" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">♻️ REFACTOR</text>
+      <text x="500" y="18" fill="#64748b" font-size="15">↺ repeat per task</text>
+    </g>
+  </g>
+  <!-- 6 VERIFY -->
+  <g transform="translate(0,1116)">
+    <circle cx="107" cy="35" r="34" fill="#d97706" filter="url(#shadow)"/>
+    <text x="107" y="46" text-anchor="middle" font-size="30">🚦</text>
+    <g filter="url(#shadow)">
+      <rect x="170" y="6" rx="14" ry="14" width="850" height="58" fill="#241c10" stroke="#d97706" stroke-opacity="0.6"/>
+    </g>
+    <text x="196" y="34" fill="#f8fafc" font-size="24" font-weight="700">VERIFY</text>
+    <text x="196" y="55" fill="#cbd5e1" font-size="18">lint · tests · build all green  →  then review &amp; open the PR</text>
+    <text x="998" y="44" text-anchor="end" fill="#fbbf24" font-size="15" font-weight="700">/verify-gates</text>
+  </g>
+
+  <!-- ===================== SKILLS vs SUBAGENTS ===================== -->
+  <g transform="translate(60,1208)">
+    <!-- Skills -->
+    <rect x="0" y="0" rx="16" width="465" height="86" fill="#10231f" stroke="#0d9488" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <text x="24" y="34" fill="#2dd4bf" font-size="20" font-weight="800">🧩 SKILLS — to DO</text>
+    <text x="24" y="62" fill="#cbd5e1" font-size="17">/new-spec · /grilling · /verify-gates</text>
+    <text x="24" y="80" fill="#64748b" font-size="14">drive the workflow &amp; edit files</text>
+    <!-- Subagents -->
+    <rect x="495" y="0" rx="16" width="465" height="86" fill="#1c1530" stroke="#7c3aed" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <text x="519" y="34" fill="#c084fc" font-size="20" font-weight="800">🔎 SUBAGENTS — to CHECK</text>
+    <text x="519" y="62" fill="#cbd5e1" font-size="17">code-reviewer · test-reviewer · docs-auditor</text>
+    <text x="519" y="80" fill="#64748b" font-size="14">read-only — they report, never edit</text>
+  </g>
+
+  <!-- ===================== FOOTER ===================== -->
+  <line x1="60" y1="1322" x2="1020" y2="1322" stroke="#1e293b"/>
+  <text x="60" y="1342" fill="#475569" font-size="17" font-weight="600">Built for Claude Code &amp; OpenAI Codex</text>
+  <text x="1020" y="1342" text-anchor="end" fill="#64748b" font-size="17" font-weight="700">github.com/reginaldosilva27 · agentic-coding-template</text>
+</svg>

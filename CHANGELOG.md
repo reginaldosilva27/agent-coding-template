@@ -23,7 +23,7 @@ Use these categories: Added · Changed · Deprecated · Removed · Fixed · Secu
 ## [0.1.0] - 2026-06-23
 
 First public release — a reusable, spec-first (SDD) + test-first (TDD) project template for
-AI agent coding (Claude Code + Codex).
+agentic coding (Claude Code + Codex).
 
 ### Added
 
